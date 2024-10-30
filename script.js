@@ -1,60 +1,29 @@
-let tens = 0;
-let seconds = 0;
-const appendTens = document.getElementById("tens");
-const appendSeconds = document.getElementById("seconds");
-let Interval;
-let running = false;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylish Stopwatch</title>
+    <link href="https://unpkg.com/@primer/css@^20.2.4/dist/primer.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="wrapper" data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">
+        <div class="container">
+            <section class="time-container">
+                <p class="time">
+                    <span id="minutes">00</span>:<span id="seconds">00</span>:<span id="tens">00</span>
+                </p>                
+            </section>
 
-const loadInitialState = () => {
-    const btnStart = document.getElementById("button-start");
-    const btnReset = document.getElementById("button-reset");
-
-    btnStart.addEventListener("click", function () {
-        clearInterval(Interval);
-        if (!running) {
-            running = true;
-            Interval = setInterval(startTimer, 10);
-            btnStart.innerHTML = "Pause";
-        } else {
-            running = false;
-            clearInterval(Interval);
-            btnStart.innerHTML = "Start";
-        }
-    });
-
-    btnReset.addEventListener("click", function () {
-        clearInterval(Interval);
-        running = false;
-        tens = 0;
-        seconds = 0;
-        appendTens.innerHTML = "00";
-        appendSeconds.innerHTML = "00";
-        btnStart.innerHTML = "Start";
-    });
-};
-
-window.onload = function () {
-    loadInitialState();
-};
-
-function startTimer() {
-    tens++;
-    if (tens <= 9) {
-        appendTens.innerHTML = "0" + tens;
-    }
-
-    if (tens > 9) {
-        appendTens.innerHTML = tens;
-    }
-
-    if (tens > 99) {
-        seconds++;
-        appendSeconds.innerHTML = "0" + seconds;
-        tens = 0;
-        appendTens.innerHTML = "0" + tens;
-    }
-
-    if (seconds > 9) {
-        appendSeconds.innerHTML = seconds;
-    }
-}
+            <section title="actions" class="buttons">
+                <button class="btn btn-primary" id="button-start">
+                    <span>Start</span>
+                </button>
+                <button class="btn btn-outline" id="button-reset">Reset</button>
+            </section>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
