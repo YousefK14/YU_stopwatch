@@ -1,29 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stylish Stopwatch</title>
-    <link href="https://unpkg.com/@primer/css@^20.2.4/dist/primer.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="wrapper" data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">
-        <div class="container">
-            <section class="time-container">
-                <p class="time">
-                    <span id="minutes">00</span>:<span id="seconds">00</span>:<span id="tens">00</span>
-                </p>                
-            </section>
+let tens = 0;
+let seconds = 0;
+let minutes = 0;
+const appendTens = document.getElementById("tens");
+const appendSeconds = document.getElementById("seconds");
+const appendMinutes = document.getElementById("minutes");
+let interval;
+let running = false;
 
-            <section title="actions" class="buttons">
-                <button class="btn btn-primary" id="button-start">
-                    <span>Start</span>
-                </button>
-                <button class="btn btn-outline" id="button-reset">Reset</button>
-            </section>
-        </div>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+const loadInitialState = () => {
+    const btnStart = document.getElementById("button-start");
+    const btnReset = document.getElementById("button-reset");
+
+    btnStart.addEventListener("click", function () {
+        clearInterval(interval);
+        if (!running) {
+            running = true;
+            interval = setInterval(startTimer, 10);
+            btnStart.textContent = "Pause";
+        } else {
+            running = false;
+            clearInterval(interval);
+            btnStart.textContent = "Start";
+        }
+    });
+
+    btnReset.addEventListener("click", function () {
+        clearInterval(interval);
+        resetTimer();
+    });
+};
+
+const resetTimer = () => {
+    running = false;
+    tens = 0;
+    seconds = 0;
+    minutes = 0;
+    appendTens.textContent = "00";
+    appendSeconds.textContent = "00";
+    appendMinutes.textContent = "00";
+    btnStart.textContent = "Start";
+};
+
+const startTimer = () => {
+    tens++;
+    if (tens > 99) {
+        seconds++;
+        tens = 0;
+    }
+    if (seconds > 59) {
+        minutes++;
+        seconds = 0;
+    }
+
+    appendTens.textContent = tens < 10 ? "0" + tens : tens;
+    appendSeconds.textContent = seconds < 10 ? "0" + seconds : seconds;
+    appendMinutes.textContent = minutes < 10 ? "0" + minutes : minutes;
+};
+
+window.onload = function () {
+    loadInitialState();
+};
